@@ -259,16 +259,18 @@ export function InteractiveServiceCards() {
               }}
             >
               {expandedCard === "multimedia" ? (
-                <div className="relative w-full h-full">
-                  <video
-                    ref={videoRef}
-                    src="/video/complete_video.mp4"
-                    className="w-full h-full object-cover pointer-events-none"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                  />
+                <div className="relative w-full h-full bg-gradient-to-br from-purple-900/30 via-blue-900/30 to-black">
+                  {/* 临时占位图 - 等待视频托管配置 */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-center space-y-4 p-8">
+                      <div className="w-24 h-24 mx-auto rounded-full bg-white/10 flex items-center justify-center">
+                        <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
+                        </svg>
+                      </div>
+                      <p className="text-white/60 text-sm">多媒体演示视频</p>
+                    </div>
+                  </div>
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-8 pointer-events-none">
                     <h3 className="text-2xl font-bold text-white mb-3">多媒体案例 (50+篇)</h3>
                     <p className="text-gray-300 text-base leading-relaxed">包含教学示范课，结合视频、音频等多媒体形式，提供沉浸式学习体验。</p>
