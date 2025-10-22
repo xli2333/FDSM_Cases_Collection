@@ -7,8 +7,9 @@ import { SparklesCore } from "@/components/ui/sparkles"
 import { Navbar } from "@/components/ui/navbar"
 import { Pricing } from "@/components/ui/pricing"
 import { InteractiveServiceCards } from "@/components/ui/interactive-service-cards"
-import { PartnerSlider } from "@/components/ui/partner-slider"
+import { PartnerScanner } from "@/components/ui/partner-scanner"
 import { TextParticles } from "@/components/ui/text-particles"
+import { Timeline } from "@/components/ui/timeline"
 import {
   CheckCircle,
   X,
@@ -156,13 +157,13 @@ export default function HomePage() {
                       <div className="flex-shrink-0 mt-0.5">
                         <CheckCircle className="w-6 h-6 text-green-400" strokeWidth={2.5} />
                       </div>
-                      <p className="text-gray-100 leading-relaxed">100%聚焦热点管理议题</p>
+                      <p className="text-gray-100 leading-relaxed">聚焦科创与新质生产力，深度覆盖AI、新能源、生物医药等前沿领域</p>
                     </div>
                     <div className="flex items-start gap-4 group/item">
                       <div className="flex-shrink-0 mt-0.5">
                         <CheckCircle className="w-6 h-6 text-green-400" strokeWidth={2.5} />
                       </div>
-                      <p className="text-gray-100 leading-relaxed">覆盖200+院校，1000+注册教师</p>
+                      <p className="text-gray-100 leading-relaxed">1500+短案例精准切入单一议题，适用于快速课堂讨论与招生面试</p>
                     </div>
                     <div className="flex items-start gap-4 group/item">
                       <div className="flex-shrink-0 mt-0.5">
@@ -181,8 +182,11 @@ export default function HomePage() {
       {/* Services Section */}
       <InteractiveServiceCards />
 
+      {/* Timeline Section */}
+      <Timeline />
+
       {/* Partners Slider Section */}
-      <PartnerSlider />
+      <PartnerScanner />
 
       {/* Representative Honors & Achievements Section */}
       <section className="py-32 bg-black">
@@ -197,80 +201,46 @@ export default function HomePage() {
 
             <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-8">
               {/* Card 1 */}
-              <details className="group">
-                <summary className="relative cursor-pointer list-none">
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500/30 via-blue-500/10 to-transparent rounded-xl blur-lg opacity-40 group-hover:opacity-60 group-open:opacity-70 transition-opacity duration-300"></div>
-                  <div className="relative backdrop-blur-sm bg-white/[0.03] border border-white/10 group-hover:border-blue-500/30 group-open:border-blue-500/50 rounded-xl p-6 transition-all duration-300">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="h-2.5 w-2.5 rounded-full bg-blue-400 flex-shrink-0"></div>
-                      <h3 className="text-lg font-bold text-white">全国工商管理案例中心</h3>
-                    </div>
-                    <p className="text-[15px] text-gray-400 mb-3.5">全国百篇优秀管理案例 · 精品案例课</p>
-                    <p className="text-[13px] text-blue-400 group-open:hidden">点击查看详情 →</p>
+              <div className="relative group">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500/30 via-blue-500/10 to-transparent rounded-xl blur-lg opacity-40 group-hover:opacity-60 transition-opacity duration-300"></div>
+                <div className="relative backdrop-blur-sm bg-white/[0.03] border border-white/10 group-hover:border-blue-500/30 rounded-xl p-6 transition-all duration-300">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="h-2.5 w-2.5 rounded-full bg-blue-400 flex-shrink-0"></div>
+                    <h3 className="text-lg font-bold text-white">全国工商管理案例中心</h3>
                   </div>
-                </summary>
-                <div className="mt-2.5 backdrop-blur-sm bg-white/[0.02] border border-white/10 rounded-xl p-5 space-y-3.5 text-gray-300">
-                  <div>
-                    <p className="font-semibold text-blue-400 mb-2 text-[13px]">全国百篇优秀管理案例</p>
-                    <ul className="space-y-1.5 text-[13px] leading-relaxed">
-                      <li>《eBay中国：领导力重塑》</li>
-                      <li>《丁香园：打造互联网医疗健康服务平台》</li>
-                      <li>《沃隆食品：把见过保卫战进行到底》</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <p className="font-semibold text-blue-400 mb-2 text-[13px]">精品案例课</p>
-                    <p className="text-[13px]">《百瑞源：直播电商的思考》</p>
-                  </div>
+                  <p className="text-[15px] text-gray-400 leading-relaxed">
+                    多篇案例入选全国百篇优秀管理案例及精品案例课，包括《eBay中国：领导力重塑》《丁香园：打造互联网医疗健康服务平台》等优秀作品
+                  </p>
                 </div>
-              </details>
+              </div>
 
               {/* Card 2 */}
-              <details className="group">
-                <summary className="relative cursor-pointer list-none">
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500/30 via-purple-500/10 to-transparent rounded-xl blur-lg opacity-40 group-hover:opacity-60 group-open:opacity-70 transition-opacity duration-300"></div>
-                  <div className="relative backdrop-blur-sm bg-white/[0.03] border border-white/10 group-hover:border-purple-500/30 group-open:border-purple-500/50 rounded-xl p-6 transition-all duration-300">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="h-2.5 w-2.5 rounded-full bg-purple-400 flex-shrink-0"></div>
-                      <h3 className="text-lg font-bold text-white">教育部专业学位中心</h3>
-                    </div>
-                    <p className="text-[15px] text-gray-400 mb-3.5">精品案例课堂 · MBA公开课</p>
-                    <p className="text-[13px] text-purple-400 group-open:hidden">点击查看详情 →</p>
+              <div className="relative group">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500/30 via-purple-500/10 to-transparent rounded-xl blur-lg opacity-40 group-hover:opacity-60 transition-opacity duration-300"></div>
+                <div className="relative backdrop-blur-sm bg-white/[0.03] border border-white/10 group-hover:border-purple-500/30 rounded-xl p-6 transition-all duration-300">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="h-2.5 w-2.5 rounded-full bg-purple-400 flex-shrink-0"></div>
+                    <h3 className="text-lg font-bold text-white">教育部专业学位中心</h3>
                   </div>
-                </summary>
-                <div className="mt-2.5 backdrop-blur-sm bg-white/[0.02] border border-white/10 rounded-xl p-5 space-y-3.5 text-gray-300">
-                  <div>
-                    <p className="font-semibold text-purple-400 mb-2 text-[13px]">精品案例课堂</p>
-                    <ul className="space-y-1.5 text-[13px] leading-relaxed">
-                      <li>MBA公开课《苹果公司的战略》</li>
-                      <li>复旦管理案例课堂《新质生产力：猎头企业组织裂变》</li>
-                    </ul>
-                  </div>
+                  <p className="text-[15px] text-gray-400 leading-relaxed">
+                    入选精品案例课堂及MBA公开课，包括《苹果公司的战略》《新质生产力：猎头企业组织裂变》等高质量课程
+                  </p>
                 </div>
-              </details>
+              </div>
 
               {/* Card 3 */}
-              <details className="group">
-                <summary className="relative cursor-pointer list-none">
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-orange-500/30 via-orange-500/10 to-transparent rounded-xl blur-lg opacity-40 group-hover:opacity-60 group-open:opacity-70 transition-opacity duration-300"></div>
-                  <div className="relative backdrop-blur-sm bg-white/[0.03] border border-white/10 group-hover:border-orange-500/30 group-open:border-orange-500/50 rounded-xl p-6 transition-all duration-300">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="h-2.5 w-2.5 rounded-full bg-orange-400 flex-shrink-0"></div>
-                      <h3 className="text-lg font-bold text-white">社会影响力</h3>
-                    </div>
-                    <p className="text-[15px] text-gray-400 mb-3.5">阿里优秀活水学者</p>
-                    <p className="text-[13px] text-orange-400 group-open:hidden">点击查看详情 →</p>
+              <div className="relative group">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-orange-500/30 via-orange-500/10 to-transparent rounded-xl blur-lg opacity-40 group-hover:opacity-60 transition-opacity duration-300"></div>
+                <div className="relative backdrop-blur-sm bg-white/[0.03] border border-white/10 group-hover:border-orange-500/30 rounded-xl p-6 transition-all duration-300">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="h-2.5 w-2.5 rounded-full bg-orange-400 flex-shrink-0"></div>
+                    <h3 className="text-lg font-bold text-white">社会影响力</h3>
                   </div>
-                </summary>
-                <div className="mt-2.5 backdrop-blur-sm bg-white/[0.02] border border-white/10 rounded-xl p-5 space-y-3.5 text-gray-300">
-                  <div>
-                    <p className="font-semibold text-orange-400 mb-2 text-[13px]">阿里优秀活水学者</p>
-                    <p className="text-[13px] leading-relaxed">
-                      《从服务领先到生态繁荣：天猫生态价值研究报告》
-                    </p>
-                  </div>
+                  <p className="text-[15px] text-gray-400 leading-relaxed">
+                    获评阿里优秀活水学者，完成《从服务领先到生态繁荣：天猫生态价值研究报告》等重要研究项目
+                  </p>
                 </div>
-              </details>
+              </div>
             </div>
           </div>
         </div>

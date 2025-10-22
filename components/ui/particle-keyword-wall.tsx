@@ -17,7 +17,7 @@ class Particle {
   closeEnoughTarget = 60
   maxSpeed = 2.0
   maxForce = 0.2
-  particleSize = 1.5
+  particleSize = 0.6  // Much smaller for finer detail
   isKilled = false
 
   startColor = { r: 0, g: 0, b: 0 }
@@ -159,7 +159,7 @@ export function ParticleKeywordWall() {
   }
 
   const nextKeywords = (canvas: HTMLCanvasElement) => {
-    // Reduce overlap a bit but keep density reasonable (10-14 per cycle)
+    // Keep original keyword count with good collision avoidance (10-14 per cycle)
     const keywordCount = Math.floor(Math.random() * 5) + 10 // 10-14 keywords
     currentKeywordsRef.current = getRandomKeywords(keywordCount)
 
@@ -174,10 +174,10 @@ export function ParticleKeywordWall() {
     labelCanvas.height = canvas.height
     const labelCtx = labelCanvas.getContext("2d")!
 
-    // Calculate font size - larger for clarity
+    // Calculate font size - slightly larger but not too big to avoid overlap
     const isMobile = canvas.width < 768
-    const baseFontSize = isMobile ? 64 : 100
-    const step = isMobile ? 4 : 2
+    const baseFontSize = isMobile ? 70 : 120  // Moderate increase from 64/100
+    const step = isMobile ? 2 : 1.0  // Much smaller step = many more particles
 
     // Calculate grid for distribution
     const cols = 2
@@ -355,7 +355,7 @@ export function ParticleKeywordWall() {
           // Slightly faster motion profile
           particle.maxSpeed = Math.random() * 4 + 5 // 5-9
           particle.maxForce = particle.maxSpeed * 0.12
-          particle.particleSize = Math.random() * 0.4 + 1.1
+          particle.particleSize = Math.random() * 0.3 + 0.5  // Much smaller: 0.5-0.8
           particle.colorBlendRate = Math.random() * 0.03 + 0.02
 
           particles.push(particle)

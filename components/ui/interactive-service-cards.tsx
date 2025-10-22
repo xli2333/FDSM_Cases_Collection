@@ -207,7 +207,7 @@ export function InteractiveServiceCards() {
                 短案例 (1500+篇)
               </h3>
               <p className={`text-gray-300 leading-relaxed ${isCompressed("short") ? "text-sm" : "text-base"}`}>
-                100%聚焦热点管理议题，适用于教学项目招生选拔和快速课堂讨论。
+                聚焦热点管理议题，适用于教学项目招生选拔和快速课堂讨论。
               </p>
 
               {expandedCard === "short" && (
