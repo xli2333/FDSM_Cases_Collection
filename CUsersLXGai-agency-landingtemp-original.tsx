@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import { disciplines, getDisciplineByIndex, type DisciplineData } from "@/lib/disciplines"
+import { getRandomKeywords, type Keyword } from "@/lib/keywords"
 
 interface Vector2D {
   x: number
@@ -117,21 +117,15 @@ export function ParticleKeywordWall() {
   const animationRef = useRef<number>()
   const particlesRef = useRef<Particle[]>([])
   const frameCountRef = useRef(0)
-  const currentDisciplineIndexRef = useRef(0)
-  const currentKeywordsRef = useRef<string[]>([])
-  const isFirstTitleRef = useRef(true)
-  const disciplineColorsRef = useRef<Map<number, { r: number; g: number; b: number }>>(new Map())
+  const currentKeywordsRef = useRef<Keyword[]>([])
   // Per-cycle layout rects (kept for reference)
   const keywordRectsRef = useRef<
     { x: number; y: number; w: number; h: number; color: { r: number; g: number; b: number }; word: string }[]
   >([])
 
   const pixelSteps = 4
-  const DISPLAY_TITLE_SECONDS = 4 // Display discipline title for 4s
-  const DISPLAY_KEYWORDS_SECONDS = 4 // Display keywords for 4s
-  const TOTAL_CYCLE_SECONDS = DISPLAY_TITLE_SECONDS + DISPLAY_KEYWORDS_SECONDS // 8s total
-  const CYCLE_FRAMES = Math.round(60 * TOTAL_CYCLE_SECONDS)
-  const TITLE_FRAMES = Math.round(60 * DISPLAY_TITLE_SECONDS)
+  const CYCLE_SECONDS = 5 // ~5s per cycle per your request
+  const CYCLE_FRAMES = Math.round(60 * CYCLE_SECONDS)
 
   // Only three colors (Blue, Orange, White) matching left container theme
   const PALETTE = [
@@ -164,58 +158,10 @@ export function ParticleKeywordWall() {
     }
   }
 
-  const generateDisciplineContent = (canvas: HTMLCanvasElement, showTitle: boolean) => {
-    // Get current discipline
-    const discipline = getDisciplineByIndex(currentDisciplineIndexRef.current)
-
-    // Assign a fixed random color for this discipline (if not already assigned)
-    if (!disciplineColorsRef.current.has(currentDisciplineIndexRef.current)) {
-      const randomColor = PALETTE[Math.floor(Math.random() * PALETTE.length)]
-      disciplineColorsRef.current.set(currentDisciplineIndexRef.current, randomColor)
-    }
-    const titleColor = disciplineColorsRef.current.get(currentDisciplineIndexRef.current)!
-
-    if (showTitle) {
-      // Smart split discipline title into lines
-      const name = discipline.name
-      const lines: string[] = []
-
-      if (name.length <= 5) {
-        lines.push(name)
-      } else if (name.length === 6) {
-        lines.push(name.substring(0, 3))
-        lines.push(name.substring(3))
-      } else if (name.length === 7) {
-        lines.push(name.substring(0, 4))
-        lines.push(name.substring(4))
-      } else if (name.length === 8) {
-        lines.push(name.substring(0, 4))
-        lines.push(name.substring(4))
-      } else if (name.length === 9) {
-        lines.push(name.substring(0, 5))
-        lines.push(name.substring(5))
-      } else if (name.length === 10) {
-        lines.push(name.substring(0, 5))
-        lines.push(name.substring(5))
-      } else {
-        // 11+ chars: split into chunks of 5
-        for (let i = 0; i < name.length; i += 5) {
-          const chunk = name.substring(i, i + 5)
-          if (chunk.length === 1 && lines.length > 0) {
-            lines[lines.length - 1] += chunk
-          } else {
-            lines.push(chunk)
-          }
-        }
-      }
-
-      currentKeywordsRef.current = lines
-    } else {
-      // Show random keywords from discipline
-      const keywordCount = Math.min(12, discipline.keywords.length)
-      const shuffled = [...discipline.keywords].sort(() => Math.random() - 0.5)
-      currentKeywordsRef.current = shuffled.slice(0, keywordCount)
-    }
+  const nextKeywords = (canvas: HTMLCanvasElement) => {
+    // Keep original keyword count with good collision avoidance (10-14 per cycle)
+    const keywordCount = Math.floor(Math.random() * 5) + 10 // 10-14 keywords
+    currentKeywordsRef.current = getRandomKeywords(keywordCount)
 
     const offscreenCanvas = document.createElement("canvas")
     offscreenCanvas.width = canvas.width
@@ -228,33 +174,21 @@ export function ParticleKeywordWall() {
     labelCanvas.height = canvas.height
     const labelCtx = labelCanvas.getContext("2d")!
 
-    // Calculate font size and layout
+    // Calculate font size - slightly larger but not too big to avoid overlap
     const isMobile = canvas.width < 768
-    const step = isMobile ? 2 : 1.0
+    const baseFontSize = isMobile ? 70 : 120  // Moderate increase from 64/100
+    const step = isMobile ? 2 : 1.0  // Much smaller step = many more particles
 
-    let baseFontSize: number
-    let cols: number
-    let rows: number
-
-    if (showTitle) {
-      // Large centered title
-      baseFontSize = isMobile ? 100 : 160
-      cols = 1
-      rows = currentKeywordsRef.current.length
-    } else {
-      // Multiple keywords in grid
-      baseFontSize = isMobile ? 70 : 120
-      cols = 2
-      rows = Math.ceil(currentKeywordsRef.current.length / cols)
-    }
-
+    // Calculate grid for distribution
+    const cols = 2
+    const rows = Math.ceil(currentKeywordsRef.current.length / cols)
     const cellWidth = canvas.width / cols
     const cellHeight = canvas.height / rows
 
-    // Collision-avoid placement helpers with stricter margins
+    // Collision-avoid placement helpers
     type Rect = { x: number; y: number; w: number; h: number }
     const placed: Rect[] = []
-    const margin = Math.max(20, Math.round(baseFontSize * 0.15))  // Larger margin to prevent overlap
+    const margin = Math.max(8, Math.round(baseFontSize * 0.08))
     const intersects = (a: Rect, b: Rect) =>
       !(a.x + a.w + margin <= b.x || b.x + b.w + margin <= a.x || a.y + a.h + margin <= b.y || b.y + b.h + margin <= a.y)
     const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v))
@@ -274,54 +208,30 @@ export function ParticleKeywordWall() {
       const col = index % cols
       const row = Math.floor(index / cols)
 
-      let baseX: number
-      let baseY: number
-
-      if (showTitle) {
-        // Center title with tight line spacing
-        const lineHeight = baseFontSize * 1.3
-        const totalHeight = rows * lineHeight
-        const startY = (canvas.height - totalHeight) / 2
-        baseX = canvas.width / 2
-        baseY = startY + row * lineHeight + lineHeight / 2
-      } else {
-        // Grid layout for keywords
-        baseX = col * cellWidth + cellWidth * 0.1
-        baseY = row * cellHeight + cellHeight * 0.3
-      }
+      const baseX = col * cellWidth + cellWidth * 0.1
+      const baseY = row * cellHeight + cellHeight * 0.3
 
       // Measure word
       let curFont = baseFontSize
       offscreenCtx.font = `900 ${curFont}px Inter, sans-serif`
-      let metrics = offscreenCtx.measureText(keyword)
+      let metrics = offscreenCtx.measureText(keyword.cn)
       let textWidth = metrics.width
       let textHeight = curFont * 1.2
 
       // Search for non-overlapping placement within the cell
       let bestRect: Rect | null = null
       let bestOverlap = Number.POSITIVE_INFINITY
-      const maxTries = showTitle ? 1 : 40
+      const maxTries = 40
       for (let t = 0; t < maxTries; t++) {
-        let xPos: number
-        let yPos: number
-
-        if (showTitle) {
-          // Center title
-          xPos = baseX - textWidth / 2
-          yPos = baseY - textHeight / 2
-        } else {
-          // Random placement for keywords
-          const ampX = cellWidth * 0.45
-          const ampY = cellHeight * 0.3
-          const randomXOffset = (Math.random() - 0.3) * ampX
-          const randomYOffset = (Math.random() - 0.5) * ampY
-          xPos = baseX + randomXOffset
-          yPos = baseY + randomYOffset
-          // Clamp inside cell
-          xPos = clamp(xPos, col * cellWidth + margin, (col + 1) * cellWidth - textWidth - margin)
-          yPos = clamp(yPos, row * cellHeight + margin, (row + 1) * cellHeight - textHeight - margin)
-        }
-
+        const ampX = cellWidth * 0.45
+        const ampY = cellHeight * 0.3
+        const randomXOffset = (Math.random() - 0.3) * ampX
+        const randomYOffset = (Math.random() - 0.5) * ampY
+        let xPos = baseX + randomXOffset
+        let yPos = baseY + randomYOffset
+        // Clamp inside cell
+        xPos = clamp(xPos, col * cellWidth + margin, (col + 1) * cellWidth - textWidth - margin)
+        yPos = clamp(yPos, row * cellHeight + margin, (row + 1) * cellHeight - textHeight - margin)
         const rect: Rect = { x: xPos, y: yPos, w: textWidth, h: textHeight }
 
         // Compute overlap score with placed rects
@@ -348,7 +258,7 @@ export function ParticleKeywordWall() {
       if (bestOverlap > 0.0001) {
         curFont = Math.max(Math.round(baseFontSize * 0.94), Math.round(baseFontSize * 0.85))
         offscreenCtx.font = `900 ${curFont}px Inter, sans-serif`
-        metrics = offscreenCtx.measureText(keyword)
+        metrics = offscreenCtx.measureText(keyword.cn)
         textWidth = metrics.width
         textHeight = curFont * 1.2
         const ampX = cellWidth * 0.35
@@ -376,38 +286,21 @@ export function ParticleKeywordWall() {
 
       // Draw visible mask (white)
       offscreenCtx.fillStyle = "white"
-      offscreenCtx.fillText(keyword, finalRect.x, finalRect.y)
+      offscreenCtx.fillText(keyword.cn, finalRect.x, finalRect.y)
 
-      // Draw on label canvas with colors
-      if (showTitle) {
-        // For titles: use single color for entire title
-        labelCtx.fillStyle = `rgb(${titleColor.r},${titleColor.g},${titleColor.b})`
-        labelCtx.fillText(keyword, finalRect.x, finalRect.y)
+      // On visible mask: draw white; on label: draw the final band color
+      keywordRects.push({
+        x: finalRect.x,
+        y: finalRect.y,
+        w: finalRect.w,
+        h: finalRect.h,
+        color: bandColorForY(finalRect.y + finalRect.h / 2, canvas.height),
+        word: keyword.cn,
+      })
 
-        keywordRects.push({
-          x: finalRect.x,
-          y: finalRect.y,
-          w: finalRect.w,
-          h: finalRect.h,
-          color: titleColor,
-          word: keyword,
-        })
-      } else {
-        // For keywords: use position-based color
-        const wordColor = bandColorForY(finalRect.y + finalRect.h / 2, canvas.height)
-
-        keywordRects.push({
-          x: finalRect.x,
-          y: finalRect.y,
-          w: finalRect.w,
-          h: finalRect.h,
-          color: wordColor,
-          word: keyword,
-        })
-
-        labelCtx.fillStyle = `rgb(${wordColor.r},${wordColor.g},${wordColor.b})`
-        labelCtx.fillText(keyword, finalRect.x, finalRect.y)
-      }
+      const wordColor = bandColorForY(finalRect.y + finalRect.h / 2, canvas.height)
+      labelCtx.fillStyle = `rgb(${wordColor.r},${wordColor.g},${wordColor.b})`
+      labelCtx.fillText(keyword.cn, finalRect.x, finalRect.y)
     })
 
     // Keep rects for color lookup during particle assignment
@@ -449,22 +342,15 @@ export function ParticleKeywordWall() {
         } else {
           particle = new Particle()
 
-          // Only spawn from random positions on FIRST TITLE render
-          if (showTitle && isFirstTitleRef.current) {
-            const randomPos = generateRandomPos(
-              canvas.width / 2,
-              canvas.height / 2,
-              (canvas.width + canvas.height) / 2,
-              canvas.width,
-              canvas.height,
-            )
-            particle.pos.x = randomPos.x
-            particle.pos.y = randomPos.y
-          } else {
-            // For keywords and subsequent titles: start near target
-            particle.pos.x = x + (Math.random() - 0.5) * 50
-            particle.pos.y = y + (Math.random() - 0.5) * 50
-          }
+          const randomPos = generateRandomPos(
+            canvas.width / 2,
+            canvas.height / 2,
+            (canvas.width + canvas.height) / 2,
+            canvas.width,
+            canvas.height,
+          )
+          particle.pos.x = randomPos.x
+          particle.pos.y = randomPos.y
 
           // Slightly faster motion profile
           particle.maxSpeed = Math.random() * 4 + 5 // 5-9
@@ -549,28 +435,12 @@ export function ParticleKeywordWall() {
       }
     }
 
-    // Cycle through title and keywords
+    // Auto-advance keywords every CYCLE_FRAMES (~CYCLE_SECONDS seconds @60fps)
     frameCountRef.current++
-    const cyclePosition = frameCountRef.current % CYCLE_FRAMES
-
-    // At cycle start: show discipline title
-    if (cyclePosition === 0) {
+    if (frameCountRef.current % CYCLE_FRAMES === 0) {
+      // Clear at cycle boundary to avoid ghost trails
       ctx.clearRect(0, 0, canvas.width, canvas.height)
-      generateDisciplineContent(canvas, true)
-      if (isFirstTitleRef.current) {
-        isFirstTitleRef.current = false
-      }
-    }
-
-    // Halfway through cycle: morph to keywords
-    if (cyclePosition === TITLE_FRAMES) {
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-      generateDisciplineContent(canvas, false)
-    }
-
-    // End of cycle: move to next discipline
-    if (cyclePosition === CYCLE_FRAMES - 1) {
-      currentDisciplineIndexRef.current = (currentDisciplineIndexRef.current + 1) % disciplines.length
+      nextKeywords(canvas)
     }
 
     animationRef.current = requestAnimationFrame(animate)
@@ -589,12 +459,12 @@ export function ParticleKeywordWall() {
     }
 
     resizeCanvas()
-    generateDisciplineContent(canvas, true)
+    nextKeywords(canvas)
     animate()
 
     const handleResize = () => {
       resizeCanvas()
-      generateDisciplineContent(canvas, true)
+      nextKeywords(canvas)
     }
 
     window.addEventListener("resize", handleResize)
