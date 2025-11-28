@@ -20,7 +20,7 @@ const partners: PartnerData[] = [
     description: "触达2万+教师用户 · 全球顶级商学院案例出版平台",
   },
   {
-    name: "SAGE Publishing",
+    name: "Sage Publishing",
     logo: "/logos/Sage Publishing.png",
     stats: [
       { label: "套案例发表", value: "46+44" },
@@ -296,26 +296,31 @@ export function PartnerScanner() {
         </div>
       </div>
 
-      {/* 详情卡片 - 跟原版一样的布局 */}
+      {/* 详情卡片 - 重新设计布局: Logo左上角 + 名称 + 详情 */}
       <div className="detail-card">
-        <div className="relative w-full h-full backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6 transition-all duration-300 flex flex-col">
-          {/* Logo Badge */}
-          <div className="relative h-16 w-40 bg-white rounded-xl mb-5 flex items-center justify-center overflow-hidden p-3 mx-auto">
-            <img
-              src={partner.logo}
-              alt={partner.name}
-              className="w-full h-full object-contain"
-            />
+        <div className="relative w-full h-full backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6 transition-all duration-300 flex flex-col text-left">
+          {/* Header: Logo + Name */}
+          <div className="flex items-center gap-4 mb-5">
+            <div className="relative h-12 w-12 bg-white rounded-lg flex-shrink-0 flex items-center justify-center p-1.5 overflow-hidden shadow-sm">
+              <img
+                src={partner.logo}
+                alt={partner.name}
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <h3 className="text-lg font-bold text-white leading-tight line-clamp-2">
+              {partner.name}
+            </h3>
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-2 gap-4 text-center mb-4 flex-grow">
+          <div className="grid grid-cols-2 gap-4 mb-4 flex-grow">
             {partner.stats.map((stat, idx) => (
-              <div key={idx}>
-                <p className="text-2xl font-extrabold text-white group-hover:text-[#f36823] transition-colors duration-300">
+              <div key={idx} className="text-left">
+                <p className="text-xl font-extrabold text-white group-hover:text-[#f36823] transition-colors duration-300">
                   {stat.value}
                 </p>
-                <p className="text-xs text-gray-400 group-hover:text-gray-300 mt-1.5 transition-colors duration-300">
+                <p className="text-xs text-gray-400 group-hover:text-gray-300 mt-1 transition-colors duration-300">
                   {stat.label}
                 </p>
               </div>
@@ -324,7 +329,7 @@ export function PartnerScanner() {
 
           {/* Description */}
           <div className="pt-3 border-t border-white/10 group-hover:border-[#f36823]/30 transition-colors duration-300">
-            <p className="text-[11px] text-gray-400 group-hover:text-gray-300 text-center leading-relaxed transition-colors duration-300">
+            <p className="text-[11px] text-gray-400 group-hover:text-gray-300 leading-relaxed transition-colors duration-300 line-clamp-2">
               {partner.description}
             </p>
           </div>

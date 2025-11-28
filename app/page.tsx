@@ -4,6 +4,8 @@ import { Spotlight } from "@/components/ui/spotlight"
 import { ParticleKeywordWall } from "@/components/ui/particle-keyword-wall"
 import AnimatedGradientBackground from "@/components/ui/animated-gradient-background"
 import { SparklesCore } from "@/components/ui/sparkles"
+import GradientText from "@/components/ui/gradient-text"
+import CustomCursor from "@/components/ui/custom-cursor"
 
 import { Pricing } from "@/components/ui/pricing"
 import { InteractiveServiceCards } from "@/components/ui/interactive-service-cards"
@@ -39,8 +41,8 @@ import {
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-black">
-
+    <div className="min-h-screen bg-black cursor-auto">
+      <CustomCursor />
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black pt-0">
@@ -57,15 +59,19 @@ export default function HomePage() {
                     复旦大学管理学院 FDSM CASES
                   </p>
 
-                  {/* 主标题 - 静态渐变文本 (FDSM Style) */}
-                  <div className="py-6 md:py-10 w-full select-none">
+                  {/* 主标题 - 动态渐变文本 (Lumina Style) */}
+                  <div className="py-6 md:py-10 w-full select-none special-cursor-area inline-block">
                     <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-extrabold tracking-tighter leading-none">
-                      <span className="block bg-gradient-to-r from-[#00dcff] to-[#0045a6] bg-clip-text text-transparent pb-4 filter drop-shadow-lg">
-                        无科创
-                      </span>
-                      <span className="block bg-gradient-to-r from-[#ffb15e] to-[#f36823] bg-clip-text text-transparent translate-x-16 md:translate-x-32 lg:translate-x-40 pb-4 filter drop-shadow-lg">
-                        无未来
-                      </span>
+                      <GradientText
+                        text="无科创"
+                        className="block pb-4"
+                        gradientClass="bg-gradient-to-r from-[#00dcff] via-[#0045a6] to-[#00dcff]"
+                      />
+                      <GradientText
+                        text="无未来"
+                        className="block pb-4 translate-x-16 md:translate-x-32 lg:translate-x-40"
+                        gradientClass="bg-gradient-to-r from-[#ffb15e] via-[#f36823] to-[#ffb15e]"
+                      />
                     </h1>
                   </div>
                 </div>
