@@ -185,6 +185,7 @@ export function InteractiveServiceCards() {
           <h2 className="text-4xl md:text-5xl font-bold text-white">案例产品与服务</h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             丰富的案例资源和完善的支持服务，助力商科教育创新
+            <span className="block text-sm text-gray-500 mt-2 font-normal">点击卡片查看详情</span>
           </p>
         </div>
 
@@ -222,19 +223,15 @@ export function InteractiveServiceCards() {
                     <div>
                       <p className="font-medium text-blue-400 mb-1">核心特点：</p>
                       <ul className="list-disc list-inside space-y-1 ml-2">
-                        <li>篇幅精简，平均2000-3000字</li>
-                        <li>聚焦单一管理议题或决策点</li>
-                        <li>快速更新，紧跟商业热点</li>
-                        <li>配套思考题和教学指引</li>
+                        <li>篇幅精简（2000-3000字），阅读负担小</li>
                       </ul>
                     </div>
                     <div>
                       <p className="font-medium text-blue-400 mb-1">应用场景：</p>
                       <ul className="list-disc list-inside space-y-1 ml-2">
-                        <li>MBA/EMBA招生面试案例讨论</li>
-                        <li>15-30分钟课堂案例分析</li>
-                        <li>课前预习和课后作业</li>
-                        <li>小组讨论和破冰活动</li>
+                        <li>MBA/EMBA 招生面试素材</li>
+                        <li>课堂暖场与破冰</li>
+                        <li>针对特定管理议题的快速讨论</li>
                       </ul>
                     </div>
                   </div>
@@ -325,11 +322,11 @@ export function InteractiveServiceCards() {
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-green-400 mt-1">•</span>
-                          <span><strong>国际认可：</strong>20%案例通过Ivey、HBP、SAGE等国际出版社发行</span>
+                          <span><strong>国际认可：</strong>20%已在国际学术出版平台发行</span>
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-green-400 mt-1">•</span>
-                          <span><strong>完整配套：</strong>提供教学说明、PPT课件、习题答案等全套教学资源</span>
+                          <span><strong>完整配套：</strong>每篇经典案例均配有详细的教学说明</span>
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-green-400 mt-1">•</span>
@@ -352,12 +349,44 @@ export function InteractiveServiceCards() {
                       </div>
 
                       <p className="font-semibold text-green-400 mb-3 mt-6 text-lg">明星案例：</p>
-                      <ul className="space-y-2 text-gray-300 text-sm">
-                        <li>• 宁德时代：动力电池行业的领导者之路</li>
-                        <li>• 字节跳动：算法驱动的内容生态</li>
-                        <li>• 华为：极限生存与战略韧性</li>
-                        <li>• 拼多多：下沉市场的破局之道</li>
-                      </ul>
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-left text-xs text-gray-300">
+                          <thead className="text-gray-400 border-b border-white/10">
+                            <tr>
+                              <th className="py-2 px-1 font-medium">明星案例企业</th>
+                              <th className="py-2 px-1 font-medium">行业标签</th>
+                              <th className="py-2 px-1 font-medium">案例关注点</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-white/5">
+                            <tr>
+                              <td className="py-2 px-1">宁德时代</td>
+                              <td className="py-2 px-1">新能源/动力电池</td>
+                              <td className="py-2 px-1">领导者之路、供应链整合、技术创新战略</td>
+                            </tr>
+                            <tr>
+                              <td className="py-2 px-1">字节跳动</td>
+                              <td className="py-2 px-1">互联网/算法</td>
+                              <td className="py-2 px-1">算法驱动的内容生态、组织架构与敏捷管理</td>
+                            </tr>
+                            <tr>
+                              <td className="py-2 px-1">华为</td>
+                              <td className="py-2 px-1">通信/科技</td>
+                              <td className="py-2 px-1">极限生存环境下的战略韧性、人力资源管理</td>
+                            </tr>
+                            <tr>
+                              <td className="py-2 px-1">比亚迪</td>
+                              <td className="py-2 px-1">新能源</td>
+                              <td className="py-2 px-1">战略转型，质量管理</td>
+                            </tr>
+                            <tr>
+                              <td className="py-2 px-1">上汽集团</td>
+                              <td className="py-2 px-1">汽车制造</td>
+                              <td className="py-2 px-1">传统车企的数字化转型与新能源布局</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </motion.div>
@@ -365,7 +394,7 @@ export function InteractiveServiceCards() {
               </div>
             </motion.div>
 
-            {/* 案例编审服务 */}
+            {/* 案例服务 */}
             <motion.div
               layout
               transition={{
@@ -379,10 +408,10 @@ export function InteractiveServiceCards() {
               }}
             >
               <h3 className={`font-bold text-white mb-3 ${isCompressed("editorial") ? "text-lg" : "text-2xl"}`}>
-                案例编审服务
+                案例服务
               </h3>
               <p className={`text-gray-300 leading-relaxed ${isCompressed("editorial") ? "text-sm" : "text-base"}`}>
-                提供案例方法论指导、同行评审、国内外出版支持，助力教师案例研发。
+                提供专业出版、专家辅导、同行评审及国际发表等全方位支持。
               </p>
 
               {expandedCard === "editorial" && (
@@ -394,14 +423,23 @@ export function InteractiveServiceCards() {
                 >
                   <h4 className="text-xl font-semibold text-white mb-6">服务详情</h4>
                   <div className="space-y-4 text-gray-300 text-base">
-                    <div>
-                      <p className="font-medium text-orange-400 mb-1">服务内容：</p>
-                      <ul className="list-disc list-inside space-y-1 ml-2">
-                        <li>案例写作方法论培训和指导</li>
-                        <li>资深教授一对一案例辅导</li>
-                        <li>专家匿名同行评审服务</li>
-                        <li>国际出版社推荐和发行支持</li>
-                      </ul>
+                    <div className="space-y-3">
+                      <div>
+                        <span className="text-orange-400 font-medium">专业出版：</span>
+                        <span>提供三审三校线上线下专业出版服务</span>
+                      </div>
+                      <div>
+                        <span className="text-orange-400 font-medium">专家辅导：</span>
+                        <span>组织全球专家提供案例开发与教学指导，提升教师案例开发与案例教学水平</span>
+                      </div>
+                      <div>
+                        <span className="text-orange-400 font-medium">同行评审：</span>
+                        <span>严谨的案例立项与投稿入库流程，专家匿名评审机制，确保案例质量符合国际标准</span>
+                      </div>
+                      <div>
+                        <span className="text-orange-400 font-medium">国际发表：</span>
+                        <span>支持优秀复旦管理案例 Ivey Publishing等国际顶级案例库发行，惠及全球商科教育</span>
+                      </div>
                     </div>
                   </div>
                 </motion.div>
@@ -437,22 +475,23 @@ export function InteractiveServiceCards() {
                 >
                   <h4 className="text-xl font-semibold text-white mb-6">活动详情</h4>
                   <div className="space-y-4 text-gray-300 text-base">
-                    <div>
-                      <p className="font-medium text-pink-400 mb-1">培训项目：</p>
-                      <ul className="list-disc list-inside space-y-1 ml-2">
-                        <li>案例写作工作坊（每年2-3期）</li>
-                        <li>案例教学法培训（线上+线下）</li>
-                        <li>国际案例大会参会支持</li>
-                        <li>教学创新论坛和研讨会</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <p className="font-medium text-pink-400 mb-1">特色活动：</p>
-                      <ul className="list-disc list-inside space-y-1 ml-2">
-                        <li>年度全国教师案例开发工作坊</li>
-                        <li>标杆企业实地参访和调研</li>
-                        <li>案例大赛和优秀案例评选</li>
-                      </ul>
+                    <div className="space-y-3">
+                      <div>
+                        <span className="text-pink-400 font-medium">案例工作坊：</span>
+                        <span>面向全国教师举办案例开发与教学工作坊</span>
+                      </div>
+                      <div>
+                        <span className="text-pink-400 font-medium">案例午餐会：</span>
+                        <span>线上线下结合，为教师交流切磋案例教学法提供平台</span>
+                      </div>
+                      <div>
+                        <span className="text-pink-400 font-medium">企业参访：</span>
+                        <span>组织师生深入标杆企业进行实地参访与调研</span>
+                      </div>
+                      <div>
+                        <span className="text-pink-400 font-medium">案例课堂：</span>
+                        <span>沉浸式双师案例教学示范课，吸引MBA/EMBA同学和校友力争最有贡献学员奖</span>
+                      </div>
                     </div>
                   </div>
                 </motion.div>

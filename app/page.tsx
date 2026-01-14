@@ -79,7 +79,7 @@ export default function HomePage() {
                 {/* 副标题 */}
                 <div className="space-y-6">
                   <p className="text-xl md:text-2xl text-white font-light leading-relaxed max-w-xl">
-                    复旦大学管理学院贡献中国现代商业实践发掘科创进程，以培养全球商科人才为目标的案例研发。
+                    进入中国管理情境·发掘企业科创进程·培养全球商科人才
                   </p>
 
                   <p className="text-base md:text-lg text-gray-400 max-w-xl">
@@ -114,7 +114,7 @@ export default function HomePage() {
       </section>
 
       {/* Problem & Solution Section */}
-      <section className="py-24 bg-black">
+      <section id="about" className="py-24 bg-black">
         <div className="container mx-auto px-4 py-12">
           <div className="relative w-full">
             <div className="grid lg:grid-cols-2 gap-16 items-stretch w-full">
@@ -125,28 +125,16 @@ export default function HomePage() {
                   <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">传统案例教学面临的挑战</h2>
                   <div className="space-y-5 text-lg">
                     <div className="flex items-start gap-4 group/item">
-                      <div className="flex-shrink-0 mt-0.5">
-                        <X className="w-6 h-6 text-red-400" strokeWidth={2.5} />
-                      </div>
-                      <p className="text-gray-100 leading-relaxed">案例内容陈旧，难以反映最新商业实践</p>
+                      <p className="text-gray-100 leading-relaxed">内容陈旧：现有案例往往难以反映瞬息万变的最新商业实践</p>
                     </div>
                     <div className="flex items-start gap-4 group/item">
-                      <div className="flex-shrink-0 mt-0.5">
-                        <X className="w-6 h-6 text-red-400" strokeWidth={2.5} />
-                      </div>
-                      <p className="text-gray-100 leading-relaxed">缺乏本土化的中国企业管理案例</p>
+                      <p className="text-gray-100 leading-relaxed">缺乏本土化：缺少基于中国本土企业管理情境的深度案例</p>
                     </div>
                     <div className="flex items-start gap-4 group/item">
-                      <div className="flex-shrink-0 mt-0.5">
-                        <X className="w-6 h-6 text-red-400" strokeWidth={2.5} />
-                      </div>
-                      <p className="text-gray-100 leading-relaxed">案例获取渠道分散，质量参差不齐</p>
+                      <p className="text-gray-100 leading-relaxed">标准不统一：优质案例供给端薄弱，高质量教学案例标准缺少共识</p>
                     </div>
                     <div className="flex items-start gap-4 group/item">
-                      <div className="flex-shrink-0 mt-0.5">
-                        <X className="w-6 h-6 text-red-400" strokeWidth={2.5} />
-                      </div>
-                      <p className="text-gray-100 leading-relaxed">缺少配套的教学支持和培训服务</p>
+                      <p className="text-gray-100 leading-relaxed">支持不足：缺乏配套的教学说明和案例教学方法讲师师资培训服务</p>
                     </div>
                   </div>
                 </div>
@@ -162,25 +150,25 @@ export default function HomePage() {
                       <div className="flex-shrink-0 mt-0.5">
                         <CheckCircle className="w-6 h-6 text-green-400" strokeWidth={2.5} />
                       </div>
-                      <p className="text-gray-100 leading-relaxed">90%为现场案例，20%获国际发行</p>
+                      <p className="text-gray-100 leading-relaxed">聚焦科创：紧跟“新质生产力”，深度覆盖人工智能、新能源、生物医药等前沿领域</p>
                     </div>
                     <div className="flex items-start gap-4 group/item">
                       <div className="flex-shrink-0 mt-0.5">
                         <CheckCircle className="w-6 h-6 text-green-400" strokeWidth={2.5} />
                       </div>
-                      <p className="text-gray-100 leading-relaxed">聚焦科创与新质生产力，深度覆盖AI、新能源、生物医药等前沿领域</p>
+                      <p className="text-gray-100 leading-relaxed">实地调研：90% 的案例为现场案例，基于对企业高管的实地访谈和一手资料开发</p>
                     </div>
                     <div className="flex items-start gap-4 group/item">
                       <div className="flex-shrink-0 mt-0.5">
                         <CheckCircle className="w-6 h-6 text-green-400" strokeWidth={2.5} />
                       </div>
-                      <p className="text-gray-100 leading-relaxed">1500+短案例精准切入单一议题，适用于快速课堂讨论与招生面试</p>
+                      <p className="text-gray-100 leading-relaxed">适用性强：拥有 1500+ 短案例，精准切入单一知识点，非常适合 15-30 分钟的快速课堂讨论</p>
                     </div>
                     <div className="flex items-start gap-4 group/item">
                       <div className="flex-shrink-0 mt-0.5">
                         <CheckCircle className="w-6 h-6 text-green-400" strokeWidth={2.5} />
                       </div>
-                      <p className="text-gray-100 leading-relaxed">完善的案例编审和培训服务体系</p>
+                      <p className="text-gray-100 leading-relaxed">体系完善：具备严格的案例编审流程、师资培训体系及国际发行渠道</p>
                     </div>
                   </div>
                 </div>
@@ -200,7 +188,7 @@ export default function HomePage() {
       <PartnerScanner />
 
       {/* Representative Honors & Achievements Section */}
-      <section className="py-32 bg-black">
+      <section id="honors" className="py-32 bg-black">
         <div className="container mx-auto px-4">
           <div className="scale-[1.2] origin-center pb-12">
             <div className="text-center space-y-4 mb-16">
@@ -257,7 +245,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Process Section */}
+      {/* Process Section - Hidden */}
+      {/* 
       <section className="py-32 bg-black">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-6 mb-20">
@@ -300,8 +289,10 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      */}
 
-      {/* Pricing Section */}
+      {/* Pricing Section - Hidden */}
+      {/*
       <section className="py-24 bg-black">
         <Pricing
           title="选择适合您的访问方案"
@@ -363,6 +354,7 @@ export default function HomePage() {
           ]}
         />
       </section>
+      */}
 
       {/* CTA Section */}
       <section className="relative py-24 overflow-hidden">
@@ -396,9 +388,6 @@ export default function HomePage() {
                 访问案例库
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 bg-transparent">
-                申请试用
-              </Button>
             </div>
           </div>
         </div>
@@ -415,32 +404,8 @@ export default function HomePage() {
               <div className="space-y-4">
                 <h3 className="text-2xl font-bold text-white">FDSM CASES</h3>
                 <p className="text-gray-300 leading-relaxed">
-                  复旦大学管理学院案例库 - 关注中国现代商业实践，发掘中国科创进程。以培养全球商科人才为目标的案例研发平台。
+                  复旦大学管理学院案例库
                 </p>
-              </div>
-
-              <div className="flex space-x-4">
-                <a
-                  href="mailto:contact@fdsm.fudan.edu.cn"
-                  className="p-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-300"
-                  title="邮箱联系"
-                >
-                  <Mail className="h-5 w-5" />
-                </a>
-                <a
-                  href="#"
-                  className="p-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-300"
-                  title="微信公众号"
-                >
-                  <MessageCircle className="h-5 w-5" />
-                </a>
-                <a
-                  href="tel:+86-21-xxxx-xxxx"
-                  className="p-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-300"
-                  title="电话联系"
-                >
-                  <Phone className="h-5 w-5" />
-                </a>
               </div>
             </div>
 
@@ -473,10 +438,10 @@ export default function HomePage() {
               <h4 className="text-lg font-semibold text-white">关于我们</h4>
               <ul className="space-y-3">
                 {[
-                  { name: "案例库简介", href: "#" },
-                  { name: "发展历程", href: "#" },
-                  { name: "国际合作", href: "#testimonials" },
-                  { name: "荣誉成果", href: "#" },
+                  { name: "案例库简介", href: "#about" },
+                  { name: "发展历程", href: "#timeline" },
+                  { name: "国际合作", href: "#partners" },
+                  { name: "荣誉成果", href: "#honors" },
                   { name: "联系我们", href: "#contact" },
                 ].map((item) => (
                   <li key={item.name}>
@@ -525,15 +490,6 @@ export default function HomePage() {
           <div className="border-t border-white/10 mt-16 pt-8">
             <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
               <p className="text-gray-400 text-center lg:text-left">© 2025 复旦大学管理学院案例库. All rights reserved.</p>
-
-              <div className="flex flex-wrap justify-center lg:justify-end space-x-8">
-                <a href="/privacy" className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">
-                  隐私政策
-                </a>
-                <a href="/terms" className="text-gray-400 hover:text-white transition-colors duration-300 text-sm">
-                  使用条款
-                </a>
-              </div>
             </div>
           </div>
         </div>

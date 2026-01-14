@@ -7,10 +7,6 @@ import { ChevronRight } from "lucide-react"
 interface PartnerCard {
   name: string
   logo: string
-  stats: {
-    label: string
-    value: string
-  }[]
   description: string
 }
 
@@ -18,56 +14,32 @@ const partners: PartnerCard[] = [
   {
     name: "Ivey Publishing",
     logo: "/logos/Ivey Publishing.png",
-    stats: [
-      { label: "套案例发表", value: "55" },
-      { label: "国家和地区", value: "168" },
-    ],
-    description: "触达2万+教师用户 · 全球顶级商学院案例出版平台",
+    description: "毅伟商学院出版中心，可触达超过168个国家和地区、2万教师用户",
   },
   {
-    name: "SAGE Publishing",
+    name: "SAGE",
     logo: "/logos/Sage Publishing.png",
-    stats: [
-      { label: "套案例发表", value: "46+44" },
-      { label: "合作院校", value: "27" },
-    ],
-    description: "全球领先合作伙伴之一 · 国际知名学术出版社",
+    description: "国际著名学术出版商，复旦管理案例库为当时全球27家领先院校合作伙伴之一",
   },
   {
     name: "Harvard Business Publishing",
     logo: "/logos/Harvard Business Publishing.jpg",
-    stats: [
-      { label: "套案例发表", value: "21" },
-      { label: "所院校触达", value: "2000+" },
-    ],
-    description: "哈佛商学院官方出版平台 · 顶级商学院标准",
+    description: "哈佛商学院出版社，可触达超过2000所院校",
   },
   {
     name: "The Case Centre",
     logo: "/logos/The Case Centre.jpg",
-    stats: [
-      { label: "国家和地区", value: "85+" },
-      { label: "所院校触达", value: "1200+" },
-    ],
-    description: "全球案例教学权威平台 · 欧洲案例教学中心",
+    description: "全球案例权威出版机构，可触达超过85个国家和地区、1200所院校",
   },
   {
     name: "AAPBS",
     logo: "/logos/aapbs.jpg",
-    stats: [
-      { label: "案例发表", value: "2套/年" },
-      { label: "国家和地区", value: "29" },
-    ],
-    description: "覆盖132所亚太院校 · 亚太商学院联盟",
+    description: "亚太管理学院联合会，可触达超过29个国家和地区、132所院校",
   },
   {
-    name: "Emerald Publishing",
+    name: "Emerald",
     logo: "/logos/Emerald Publishing.svg",
-    stats: [
-      { label: "合作年限", value: "5+" },
-      { label: "共享案例", value: "50+" },
-    ],
-    description: "国际知名学术出版社 · 战略合作伙伴",
+    description: "国际知名的学术出版机构，可触达超过100个国家和地区、1000所院校；复旦管理案例库为当时中国大陆唯一高校案例库合作伙伴",
   },
 ]
 
@@ -78,7 +50,7 @@ export function PartnerSlider() {
   const renderPartnerCard = (partner: PartnerCard, index: number) => (
     <div
       key={`${partner.name}-${index}`}
-      className="relative backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6 w-[360px] shrink-0 hover:border-[#f36823]/60 hover:bg-white/[0.07] transition-all duration-300 group"
+      className="relative backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6 w-[360px] shrink-0 hover:border-[#f36823]/60 hover:bg-white/[0.07] transition-all duration-300 group flex flex-col justify-between"
     >
       {/* Logo Badge */}
       <div className="relative h-20 w-44 bg-white rounded-xl mb-6 flex items-center justify-center overflow-hidden p-4">
@@ -89,23 +61,9 @@ export function PartnerSlider() {
         />
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 gap-6 text-center mb-6">
-        {partner.stats.map((stat, idx) => (
-          <div key={idx}>
-            <p className="text-3xl font-extrabold text-white group-hover:text-[#f36823] transition-colors duration-300">
-              {stat.value}
-            </p>
-            <p className="text-sm text-gray-400 group-hover:text-gray-300 mt-2 transition-colors duration-300">
-              {stat.label}
-            </p>
-          </div>
-        ))}
-      </div>
-
       {/* Description */}
-      <div className="pt-4 border-t border-white/10 group-hover:border-[#f36823]/30 transition-colors duration-300">
-        <p className="text-xs text-gray-400 group-hover:text-gray-300 text-center leading-relaxed transition-colors duration-300">
+      <div className="flex-grow flex items-center">
+        <p className="text-lg text-gray-200 font-medium leading-relaxed group-hover:text-white transition-colors duration-300">
           {partner.description}
         </p>
       </div>
@@ -118,7 +76,7 @@ export function PartnerSlider() {
         <div className="text-center mb-14">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">国际合作与影响力</h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            通过Ivey、SAGE、Emerald、Harvard、The Case Centre、AAPBS等国际平台，复旦案例触达全球168个国家和地区
+            复旦管理案例库致力于讲好中国故事，将中国管理智慧推向全世界。我们的影响力现已横跨 168个国家和地区，覆盖全球超过2000+所院校。
           </p>
         </div>
 

@@ -1,186 +1,270 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import { motion, useInView } from "framer-motion"
+import { useRef, useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 interface TimelineEvent {
   year: string
   title: string
   description: string
-  achievements?: string[]
 }
 
 const timelineEvents: TimelineEvent[] = [
   {
-    year: "2010",
-    title: "复旦案例中心成立",
-    description: "正式启动案例研究与开发工作",
-    achievements: ["建立案例研究团队", "制定案例开发标准"],
+    year: "2007年",
+    title: "成立案例中心",
+    description: "正式开启案例开发与研究的专业化道路。",
   },
   {
-    year: "2015",
-    title: "国际化战略启动",
-    description: "与Ivey Publishing建立战略合作",
-    achievements: ["首批案例登陆国际平台", "触达全球50+国家"],
+    year: "2010年",
+    title: "创办商业知识发展与传播中心",
+    description: "进一步扩大商业知识的影响力与传播渠道。",
   },
   {
-    year: "2018",
-    title: "多平台合作拓展",
-    description: "与Harvard、SAGE等顶级平台建立合作",
-    achievements: ["案例发表量突破100套", "覆盖全球100+国家"],
+    year: "2016年",
+    title: "复旦管理案例库1.0版上线",
+    description: "官方案例库门户网站（case.fdsm.fudan.edu.cn）正式投入使用。",
   },
   {
-    year: "2020",
-    title: "数字化转型",
-    description: "推出在线案例教学平台",
-    achievements: ["开发案例库系统", "实现案例数字化管理"],
+    year: "2018年",
+    title: "开启与国际顶级出版社的发行合作",
+    description: "提升案例的国际化水平，向全球输出中国管理智慧。",
   },
   {
-    year: "2023",
-    title: "全球影响力提升",
-    description: "案例触达全球168个国家和地区",
-    achievements: ["累计发表案例200+套", "合作院校2000+所"],
+    year: "2020年",
+    title: "响应学院科创战略",
+    description: "确立了以“科创短案例”为特色的发展方向，紧扣时代科技创新脉搏。",
   },
   {
-    year: "2024",
-    title: "持续创新发展",
-    description: "深化国际合作,提升案例质量",
-    achievements: ["新增合作平台3个", "获得多项教学创新奖"],
+    year: "2023年",
+    title: "复旦管理案例库2.0版升级完成",
+    description: "并在年底实现全面对外开放使用。",
+  },
+  {
+    year: "2025年",
+    title: "案例库3.0版",
+    description: "全面开启AI赋能新阶段，推动案例库的数字化与智能化转型。",
   },
 ]
 
 export function Timeline() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const isInView = useInView(containerRef, { once: true, amount: 0.2 })
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  // 处理滚动位置计算
+  const handleScroll = () => {
+    if (!containerRef.current) return
+    const container = containerRef.current
+    const center = container.scrollLeft + container.clientWidth / 2
+    
+    const children = Array.from(container.children) as HTMLElement[]
+    let minDistance = Infinity
+    let newActiveIndex = 0
+
+    children.forEach((child, index) => {
+      if (child.classList.contains('timeline-node')) {
+        const childCenter = child.offsetLeft + child.offsetWidth / 2
+        const distance = Math.abs(childCenter - center)
+        
+        if (distance < minDistance) {
+          minDistance = distance
+          newActiveIndex = index - 1 
+        }
+      }
+    })
+
+    if (newActiveIndex !== activeIndex && newActiveIndex >= 0 && newActiveIndex < timelineEvents.length) {
+      setActiveIndex(newActiveIndex)
+    }
+  }
+
+  // 滚动到指定索引
+  const scrollToIndex = (index: number) => {
+    if (containerRef.current) {
+      const child = containerRef.current.children[index + 1] as HTMLElement // +1 因为有个padding div
+      if (child) {
+        // 计算目标滚动位置，使元素居中
+        const targetScrollLeft = child.offsetLeft - containerRef.current.clientWidth / 2 + child.offsetWidth / 2
+        
+        containerRef.current.scrollTo({
+          left: targetScrollLeft,
+          behavior: 'smooth'
+        })
+      }
+    }
+  }
+
+  // 上一页/下一页
+  const handlePrev = () => {
+    if (activeIndex > 0) {
+      scrollToIndex(activeIndex - 1)
+    }
+  }
+
+  const handleNext = () => {
+    if (activeIndex < timelineEvents.length - 1) {
+      scrollToIndex(activeIndex + 1)
+    }
+  }
+
+  // 强化滚轮交互：捕获垂直滚动并转换为水平滚动，提高灵敏度
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+
+    const handleWheel = (e: WheelEvent) => {
+      const isAtStart = container.scrollLeft === 0
+      const isAtEnd = Math.abs(container.scrollWidth - container.scrollLeft - container.clientWidth) < 2 // 增加一点容差
+
+      // 判断是向上滚动还是向下滚动
+      const isScrollingUp = e.deltaY < 0
+      const isScrollingDown = e.deltaY > 0
+
+      // 如果在起点且向上滚动，或者在终点且向下滚动，允许默认行为（页面滚动）
+      if ((isAtStart && isScrollingUp) || (isAtEnd && isScrollingDown)) {
+        return
+      }
+
+      // 否则阻止默认行为，执行水平滚动
+      e.preventDefault()
+      
+      // 提高灵敏度 multiplier
+      const sensitivity = 2.5 
+      container.scrollLeft += e.deltaY * sensitivity
+    }
+
+    container.addEventListener("wheel", handleWheel, { passive: false })
+    return () => container.removeEventListener("wheel", handleWheel)
+  }, [])
 
   return (
-    <section className="py-24 bg-black relative overflow-hidden">
-      {/* 背景装饰 */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#f36823] rounded-full blur-[128px]" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500 rounded-full blur-[128px]" />
+    <section id="timeline" className="py-20 bg-black relative overflow-hidden group/timeline">
+      {/* 彻底隐藏滚动条的样式注入 */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        .no-scrollbar::-webkit-scrollbar {
+          display: none !important;
+        }
+        .no-scrollbar {
+          -ms-overflow-style: none !important;
+          scrollbar-width: none !important;
+        }
+      `}} />
+
+      <div className="container mx-auto px-4 mb-12 text-center relative z-10">
+        <h2 className="text-3xl font-bold text-white mb-4 tracking-tight">复旦大学管理学院案例中心发展历程</h2>
+        <div className="flex items-center justify-center gap-2 text-gray-400">
+          <p className="text-base font-medium">点击左右箭头以回顾历史跨越</p>
+        </div>
       </div>
 
-      <div className="container mx-auto px-4 relative z-10" ref={containerRef}>
-        <div className="text-center mb-16">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6 }}
-            className="text-3xl md:text-4xl font-bold text-white mb-4"
-          >
-            发展历程
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-xl text-gray-300 max-w-3xl mx-auto"
-          >
-            从本土案例研究到全球影响力平台的发展之路
-          </motion.p>
-        </div>
+      {/* 左右导航按钮 - 悬浮在两侧 */}
+      <div className="absolute top-1/2 left-4 md:left-12 -translate-y-1/2 z-20 hidden md:block">
+        <button 
+          onClick={handlePrev}
+          disabled={activeIndex === 0}
+          className={`p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white transition-all duration-300 hover:bg-orange-500 hover:border-orange-500 hover:scale-110 ${activeIndex === 0 ? 'opacity-30 cursor-not-allowed' : 'opacity-100 shadow-[0_0_20px_rgba(0,0,0,0.5)]'}`}
+        >
+          <ChevronLeft className="w-8 h-8" />
+        </button>
+      </div>
 
-        <div className="max-w-5xl mx-auto">
-          <div className="relative">
-            {/* 中心线 */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-transparent via-white/20 to-transparent transform -translate-x-1/2" />
+      <div className="absolute top-1/2 right-4 md:right-12 -translate-y-1/2 z-20 hidden md:block">
+        <button 
+          onClick={handleNext}
+          disabled={activeIndex === timelineEvents.length - 1}
+          className={`p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white transition-all duration-300 hover:bg-orange-500 hover:border-orange-500 hover:scale-110 ${activeIndex === timelineEvents.length - 1 ? 'opacity-30 cursor-not-allowed' : 'opacity-100 shadow-[0_0_20px_rgba(0,0,0,0.5)]'}`}
+        >
+          <ChevronRight className="w-8 h-8" />
+        </button>
+      </div>
 
-            {/* 时间轴事件 */}
-            <div className="space-y-12">
-              {timelineEvents.map((event, index) => (
-                <TimelineItem
-                  key={event.year}
-                  event={event}
-                  index={index}
-                  isLeft={index % 2 === 0}
+      <div 
+        ref={containerRef}
+        onScroll={handleScroll}
+        className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar items-center px-[35vw]" 
+        style={{ scrollBehavior: 'smooth' }}
+      >
+        {/* 左侧缓冲空间 */}
+        <div className="w-0 shrink-0" /> 
+
+        {timelineEvents.map((event, index) => {
+          const isActive = index === activeIndex
+          return (
+            <div 
+              key={index}
+              onClick={() => scrollToIndex(index)} // 点击整个卡片也可以跳转
+              className="timeline-node snap-center shrink-0 w-[280px] md:w-[400px] mx-4 md:mx-8 flex flex-col items-center justify-center cursor-pointer"
+            >
+              {/* 年份展示 */}
+              <div className="relative mb-8 h-16 flex items-center justify-center">
+                <motion.div
+                  animate={{
+                    scale: isActive ? 1.1 : 0.9,
+                    opacity: isActive ? 1 : 0.4, 
+                    y: isActive ? 0 : 5,
+                  }}
+                  className={`relative z-10 font-bold text-3xl md:text-4xl transition-all duration-500 text-white`}
+                >
+                  {event.year}
+                </motion.div>
+              </div>
+
+              {/* 连接点与线 */}
+              <div className="relative w-full flex items-center justify-center mb-8">
+                <div className="absolute left-[-100%] right-[-100%] h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent -z-10 top-1/2" />
+                
+                <motion.div
+                  animate={{
+                    scale: isActive ? 1.2 : 0.8,
+                    backgroundColor: isActive ? "#f97316" : "#262626",
+                    borderColor: isActive ? "transparent" : "#525252",
+                    borderWidth: isActive ? 0 : 1,
+                    boxShadow: isActive ? "0 0 15px rgba(249,115,22,0.5)" : "none"
+                  }}
+                  className="w-3 h-3 rounded-full relative z-10"
                 />
-              ))}
+              </div>
+
+              {/* 详情卡片 */}
+              <div className="h-56 w-full flex items-start justify-center">
+                <motion.div
+                  animate={{ 
+                    opacity: isActive ? 1 : 0.15,
+                    scale: isActive ? 1 : 0.9,
+                    y: isActive ? 0 : 10,
+                    filter: isActive ? "blur(0px)" : "blur(2px)"
+                  }}
+                  transition={{ duration: 0.4 }}
+                  className={`bg-gradient-to-b from-white/[0.08] to-transparent backdrop-blur-md border border-white/10 p-6 md:p-8 rounded-2xl text-center w-full shadow-xl hover:border-orange-500/30 transition-colors`}
+                >
+                  <h3 className="text-xl md:text-2xl font-bold text-orange-500 mb-4 tracking-tight">
+                    {event.title}
+                  </h3>
+                  <p className="text-base md:text-lg text-white leading-relaxed font-light">
+                    {event.description}
+                  </p>
+                </motion.div>
+              </div>
             </div>
-          </div>
-        </div>
+          )
+        })}
+        
+        {/* 右侧缓冲空间 */}
+        <div className="w-0 shrink-0" />
+      </div>
+
+      {/* 底部导航指示器 - 现在可点击 */}
+      <div className="flex justify-center gap-3 mt-10">
+        {timelineEvents.map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => scrollToIndex(idx)}
+            className={`h-1.5 rounded-full transition-all duration-500 hover:bg-orange-400 ${idx === activeIndex ? "w-8 bg-orange-500" : "w-2 bg-gray-800"}`}
+            aria-label={`Go to ${timelineEvents[idx].year}`}
+          />
+        ))}
       </div>
     </section>
-  )
-}
-
-function TimelineItem({
-  event,
-  index,
-  isLeft,
-}: {
-  event: TimelineEvent
-  index: number
-  isLeft: boolean
-}) {
-  const itemRef = useRef<HTMLDivElement>(null)
-  const isInView = useInView(itemRef, { once: true, amount: 0.5 })
-
-  return (
-    <motion.div
-      ref={itemRef}
-      initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
-      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: isLeft ? -50 : 50 }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      className={`relative flex items-center ${isLeft ? "justify-start" : "justify-end"}`}
-    >
-      <div className={`w-full md:w-[calc(50%-2rem)] ${isLeft ? "md:pr-12" : "md:pl-12"}`}>
-        <motion.div
-          whileHover={{ scale: 1.02 }}
-          className="relative backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-[#f36823]/60 hover:bg-white/[0.07] transition-all duration-300 group"
-        >
-          {/* 年份标签 */}
-          <div className="absolute -top-3 left-6">
-            <span className="bg-gradient-to-r from-[#f36823] to-[#ff8c4d] text-white px-4 py-1.5 rounded-full text-sm font-bold shadow-lg">
-              {event.year}
-            </span>
-          </div>
-
-          {/* 内容 */}
-          <div className="mt-4">
-            <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#f36823] transition-colors">
-              {event.title}
-            </h3>
-            <p className="text-gray-400 text-sm mb-4 leading-relaxed">{event.description}</p>
-
-            {/* 成就列表 */}
-            {event.achievements && event.achievements.length > 0 && (
-              <div className="space-y-2">
-                {event.achievements.map((achievement, idx) => (
-                  <div key={idx} className="flex items-start gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#f36823] mt-1.5 shrink-0" />
-                    <span className="text-xs text-gray-500 group-hover:text-gray-400 transition-colors">
-                      {achievement}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* 连接线到中心点 */}
-          <div
-            className={`hidden md:block absolute top-1/2 ${
-              isLeft ? "right-0 translate-x-full" : "left-0 -translate-x-full"
-            } w-12 h-0.5 bg-gradient-to-${isLeft ? "r" : "l"} from-white/20 to-transparent`}
-          />
-        </motion.div>
-      </div>
-
-      {/* 中心圆点 */}
-      <motion.div
-        initial={{ scale: 0 }}
-        animate={isInView ? { scale: 1 } : { scale: 0 }}
-        transition={{ duration: 0.4, delay: index * 0.1 + 0.2 }}
-        className="hidden md:block absolute left-1/2 transform -translate-x-1/2 z-10"
-      >
-        <div className="relative">
-          {/* 外圈光晕 */}
-          <div className="absolute inset-0 w-6 h-6 bg-[#f36823] rounded-full animate-ping opacity-20" />
-          {/* 内圈实心 */}
-          <div className="relative w-6 h-6 bg-gradient-to-br from-[#f36823] to-[#ff8c4d] rounded-full border-4 border-black shadow-lg" />
-        </div>
-      </motion.div>
-    </motion.div>
   )
 }

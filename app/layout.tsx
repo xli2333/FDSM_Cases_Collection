@@ -71,7 +71,7 @@ const harmonyOSSans = localFont({
 
 export const metadata: Metadata = {
   title: 'FDSM CASES - 复旦大学管理学院案例库',
-  description: '关注中国现代商业实践，发掘中国科创进程。以培养全球商科人才为目标的案例研发平台。',
+  description: '进入中国管理情境·发掘企业科创进程·培养全球商科人才',
   generator: 'v0.app',
 }
 
