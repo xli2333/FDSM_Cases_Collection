@@ -78,8 +78,8 @@ export default function HomePage() {
 
                 {/* 副标题 */}
                 <div className="space-y-6">
-                  <p className="text-xl md:text-2xl text-white font-light leading-relaxed max-w-xl">
-                    进入中国管理情境·发掘企业科创进程·培养全球商科人才
+                  <p className="text-xl md:text-2xl text-white font-light leading-relaxed max-w-2xl italic whitespace-nowrap">
+                    进入中国管理情境 发掘企业科创进程 培养全球商科人才
                   </p>
 
                   <p className="text-base md:text-lg text-gray-400 max-w-xl">
