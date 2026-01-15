@@ -56,7 +56,7 @@ export default function HomePage() {
                 {/* 品牌标识 */}
                 <div className="space-y-4">
                   <p className="text-xl md:text-2xl text-blue-400 font-medium tracking-wide">
-                    复旦大学管理学院 FDSM CASES
+                    复旦大学管理学院案例库 FDSM CASES
                   </p>
 
                   {/* 主标题 - 动态渐变文本 (Lumina Style) */}
@@ -89,16 +89,21 @@ export default function HomePage() {
 
                 {/* 按钮组 */}
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                  <Button size="lg" className="bg-white text-black hover:bg-gray-100 text-lg px-8 py-6">
-                    访问案例库
-                    <ArrowRight className="ml-2 h-5 w-5" />
+                  <Button asChild size="lg" className="bg-white text-black hover:bg-gray-100 text-lg px-8 py-6">
+                    <a href="https://case.fdsm.fudan.edu.cn/Home" target="_blank" rel="noopener noreferrer">
+                      访问案例库
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </a>
                   </Button>
                   <Button
+                    asChild
                     size="lg"
                     variant="outline"
                     className="border-neutral-600 text-neutral-300 hover:bg-neutral-800 bg-transparent text-lg px-8 py-6"
                   >
-                    了解更多
+                    <a href="#about">
+                      了解更多
+                    </a>
                   </Button>
                 </div>
               </div>
@@ -144,7 +149,7 @@ export default function HomePage() {
               <div className="relative group">
                 {/* 卡片内容 */}
                 <div className="relative h-full bg-gradient-to-br from-green-950/30 to-black rounded-2xl p-8 md:p-10 border border-green-500/50 shadow-[0_0_30px_rgba(34,197,94,0.3)] hover:shadow-[0_0_50px_rgba(34,197,94,0.5)] transition-all duration-500">
-                  <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">复旦案例库的核心优势</h2>
+                  <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">复旦管理案例的核心优势</h2>
                   <div className="space-y-5 text-lg">
                     <div className="flex items-start gap-4 group/item">
                       <div className="flex-shrink-0 mt-0.5">
@@ -479,7 +484,19 @@ export default function HomePage() {
                   </div>
                   <div>
                     <span>复旦大学管理学院</span>
-                    <p className="text-sm text-gray-400 mt-1">上海市国顺路670号</p>
+                    <p className="text-sm text-gray-400 mt-1">上海市国顺路670号李达三楼615</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-3 text-gray-300">
+                  <div className="p-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg mt-1">
+                    <Phone className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <a href="tel:021-25011399" className="hover:text-white transition-colors duration-300">
+                      021-25011399
+                    </a>
+                    <p className="text-sm text-gray-400 mt-1">联系电话</p>
                   </div>
                 </div>
               </div>
